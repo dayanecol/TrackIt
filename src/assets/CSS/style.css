@@ -1,13 +1,23 @@
 *{
     box-sizing: border-box;
+    --background-page: #FAFAFA;
+    --background-header: #126BA5;
+    --background-button: #52B6FF;
+    --color-check: #8FC549;
+    --color-text: #666666;
+    --white: #FFF;
+    --input-text:#E5E5E5;
+    --color-disable:#F2F2F2;
+    --border-disable:#D5D5D5;
 }
 
 body {
     width: 100%;
     height: 100%;
-    background-color: #FAFAFA;
+    background-color: var(--background-page);
     font-family: 'Lexend Deca', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
