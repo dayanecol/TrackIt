@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import Header from "../../shared/Header";
+import Footer from "../../shared/Footer";
+
 
 
 export default function TodayPage ({token,userData}){
@@ -34,11 +36,7 @@ export default function TodayPage ({token,userData}){
                 <h2>Meus hábitos</h2>
                 <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
             </Today>
-            <Footer >
-                <p>Habitos</p>
-                <p>Hoje</p>
-                <p>Historico</p>
-            </Footer>
+            <Footer />
         </>
     );
 }
@@ -66,16 +64,3 @@ const Today = styled.div`
     }
 `;
 
-const Footer = styled.div`
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    width: 100%;
-    padding:36px;
-    height: 70px;
-    background-color: var(--white);
-    position:fixed;
-    bottom:0;
-    right:0;
-    left:0;
-`;

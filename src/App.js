@@ -6,6 +6,7 @@ import TodayPage from "./components/TodayPage/TodayPage";
 import HistoryPage from "./components/HistoryPage/HistoryPage";
 import { useState } from "react";
 import UserContext from "../src/contexts/UserContext";
+import PercentageProgressbarContext from "../src/contexts/PercentageProgressBarContext"
 
 
 export default function App(){
@@ -15,9 +16,12 @@ export default function App(){
         name:"",
     });
 
+    const [percentage,setPercentage]=useState();
+
    
     return (
         <UserContext.Provider value={{userData}}>
+        <PercentageProgressbarContext.Provider value={{percentage,setPercentage}}>
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<LoginPage saveToken={(token)=> setToken(token)} saveData={(userData)=> setUserData(userData)} />} />
@@ -25,9 +29,9 @@ export default function App(){
                 <Route path="/habitos" element={<HabitsPage />} />
                 <Route path="/hoje" element={<TodayPage token={token}  />} />
                 <Route path="/historico" element={<HistoryPage />} />
-            </Routes>
-            
+            </Routes> 
         </BrowserRouter>
+        </PercentageProgressbarContext.Provider>
         </UserContext.Provider >
         
     );
