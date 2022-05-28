@@ -29,6 +29,7 @@ export default function SignUpForm(){
             name,
             image
         });
+        setLoading(true);
         promise
             .then(response => {
                 const {data}=response;
@@ -41,16 +42,11 @@ export default function SignUpForm(){
                 setName ="";
                 setImage ="";
                 alert("Usuário cadastrado ou os dados foram preenchidos incorretamente!");
-                navigate("/cadastro");
+                // navigate("/cadastro");
+                setLoading(false);
                     
                 
             }); 
-        
-        setLoading(true);
-        setTimeout(()=>{
-                setLoading(false);
-                // navigate("/");
-            },2000);
         
       }
 

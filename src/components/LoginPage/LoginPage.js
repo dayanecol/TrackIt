@@ -2,20 +2,20 @@
 
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useState } from "react";
+
 
 
 import BigLogo from "../../shared/BigLogo";
 import LoginForm from "./LoginForm";
 
-export default function LoginPage({saveToken}){
+export default function LoginPage({saveToken,saveData}){
 
     
 
     return (
         <Container>
             <BigLogo />
-            <LoginForm saveToken={saveToken} />
+            <LoginForm saveToken={saveToken} saveData={saveData} />
             <StyledLink to="/cadastro">
                 Não tem uma conta? Cadastre-se!
             </StyledLink>

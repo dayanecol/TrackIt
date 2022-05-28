@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import Header from "../../shared/Header";
 
-export default function TodayPage ({token}){
+
+export default function TodayPage ({token,userData}){
+    
 
     useEffect (()=>{
         const config ={
@@ -11,13 +14,14 @@ export default function TodayPage ({token}){
             }
         }
 
-        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
         const promise = axios.get(URL,config);
 
         promise
             .then(response=>{
                 const {data}=response;
-                console.log(data);
+                console.log(data.id);
+                
             })
             .catch(err=> console.log(err.response));
 
@@ -25,9 +29,7 @@ export default function TodayPage ({token}){
 
     return (
         <>
-            <Header>
-                TrackIt
-            </Header>
+            <Header userData={userData} />
             <Today>
                 <h2>Meus hábitos</h2>
                 <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
@@ -42,23 +44,7 @@ export default function TodayPage ({token}){
 }
 
 
-const Header = styled.div`
-    display:flex;
-    justify-content:flex-start;
-    align-items:center;
-    width: 100%;
-    height: 70px;
-    background-color: var(--background-header);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-    padding:15px;
-    color: var(--white);
-    font-size: 38.982px;
-    line-height: 49px;
-    position:fixed;
-    top:0;
-    right:0;
-    left:0;
-`;
+
 
 const Today = styled.div`
     display:flex;

@@ -5,12 +5,13 @@ import { ThreeDots } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 
 
+
 import Button from "../../shared/Button";
 import Input from "../../shared/Input";
 
 
-export default function LoginForm({saveToken}){
-   const navigate = useNavigate();
+export default function LoginForm({saveToken,saveData}){
+    const navigate = useNavigate();
 
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
@@ -24,19 +25,23 @@ export default function LoginForm({saveToken}){
             email,
             password,
         });
+        setLoading(true);
         promise
             .then(response=>{
                 const {data} = response;
                 console.log(data);
                 saveToken(data.token);
-            })
-            .catch(err=> console.log(err.response)); 
-        
-        setLoading(true);
-        setTimeout(()=>{
-                setLoading(false);
                 navigate("/hoje");
-            },2000);
+                saveData({
+                    image:data.image,
+                    name:data.name,
+                });
+                
+            })
+            .catch(err=> {
+                alert("As informações de e-mail e/ou senha estão incorretas. Insira os dados novamente ou faça o cadastro!");
+                setLoading(false);
+            }); 
         
       }
 
