@@ -64,10 +64,10 @@ export default function SignUpForm(){
 
     return (
         <form onSubmit={submitData}>
-            <Input type="text" placeholder="E-mail" value={email} onChange={e=> setEmail(e.target.value)} disabled={disable()} color={loading} required  />
+            <Input type="email" placeholder="E-mail" value={email} onChange={e=> setEmail(e.target.value)} disabled={disable()} color={loading} required  />
             <Input type="password" placeholder="Senha" value={password} onChange={e=> setPassword(e.target.value)} disabled={disable()} color={loading} required  />
             <Input type="text" placeholder="Nome" value={name} onChange={e=> setName(e.target.value)} disabled={disable()} color={loading} required  />
-            <Input type="text" placeholder="Foto" value={image} onChange={e=> setImage(e.target.value)} disabled={disable()} color={loading} required  />
+            <Input type="url" placeholder="Foto" value={image} onChange={e=> setImage(e.target.value)} disabled={disable()} color={loading} required  />
             <Button>{loadingButton()}</Button>
         </form>
     );

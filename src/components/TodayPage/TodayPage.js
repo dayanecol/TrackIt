@@ -1,3 +1,5 @@
+import { useContext } from "react"; 
+import UserContext from "../../contexts/UserContext";
 import { useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
@@ -6,15 +8,15 @@ import Footer from "../../shared/Footer";
 
 
 
-export default function TodayPage ({token,userData}){
-    
-
-    useEffect (()=>{
-        const config ={
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+export default function TodayPage (){
+    const {userData} =useContext (UserContext);
+    const config ={
+        headers: {
+            Authorization: `Bearer ${userData.token}`
         }
+    }
+    useEffect (()=>{
+        
 
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
         const promise = axios.get(URL,config);
@@ -22,7 +24,7 @@ export default function TodayPage ({token,userData}){
         promise
             .then(response=>{
                 const {data}=response;
-                console.log(data.id);
+                console.log(data);
                 
             })
             .catch(err=> console.log(err.response));
@@ -31,7 +33,7 @@ export default function TodayPage ({token,userData}){
 
     return (
         <>
-            <Header userData={userData} />
+            <Header />
             <Today>
                 <h2>Meus hábitos</h2>
                 <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>

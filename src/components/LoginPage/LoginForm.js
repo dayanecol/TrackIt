@@ -1,17 +1,19 @@
 // import axios from "axios";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
-
-
+import UserContext from "../../contexts/UserContext";
+import isUserLoggedContext from "../../contexts/isUserLoggedContext";
 
 import Button from "../../shared/Button";
 import Input from "../../shared/Input";
 
 
-export default function LoginForm({saveToken,saveData}){
+export default function LoginForm(){
     const navigate = useNavigate();
+    const {setUserData} = useContext(UserContext);
+    const {setIsUserLogged} = useContext(isUserLoggedContext);
 
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
@@ -30,12 +32,13 @@ export default function LoginForm({saveToken,saveData}){
             .then(response=>{
                 const {data} = response;
                 console.log(data);
-                saveToken(data.token);
-                navigate("/hoje");
-                saveData({
+                setUserData({
                     image:data.image,
                     name:data.name,
+                    token:data.token,
                 });
+                setIsUserLogged(true);
+                navigate("/hoje");
                 
             })
             .catch(err=> {

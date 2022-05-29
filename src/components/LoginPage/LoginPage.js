@@ -1,21 +1,15 @@
-// import axios from "axios";
-
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
-
 
 import BigLogo from "../../shared/BigLogo";
 import LoginForm from "./LoginForm";
 
-export default function LoginPage({saveToken,saveData}){
-
-    
+export default function LoginPage(){
 
     return (
         <Container>
             <BigLogo />
-            <LoginForm saveToken={saveToken} saveData={saveData} />
+            <LoginForm  />
             <StyledLink to="/cadastro">
                 Não tem uma conta? Cadastre-se!
             </StyledLink>
