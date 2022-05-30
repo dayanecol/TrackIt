@@ -30,7 +30,6 @@ export default function LoginForm(){
         promise
             .then(response=>{
                 const {data} = response;
-                console.log(data);
                 setUserData({
                     image:data.image,
                     name:data.name,
