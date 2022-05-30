@@ -50,8 +50,8 @@ const Boxes = styled.div`
 const ButtonDay = styled.div`
     width: 30px;
     height: 30px;
-    background-color: ${props => props.background};;
-    border: 1px solid ${props => props.border};;
+    background-color: ${props => props.background};
+    border: 1px solid ${props => props.border};
     border-radius: 5px;
     font-weight: 400;
     font-size: 20px;

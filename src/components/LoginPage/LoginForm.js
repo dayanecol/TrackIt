@@ -1,4 +1,3 @@
-// import axios from "axios";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";

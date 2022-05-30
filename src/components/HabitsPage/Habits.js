@@ -1,17 +1,23 @@
 import { useContext, useState } from "react"; 
 import UserContext from "../../contexts/UserContext";
+import AddHabitContext from "../../contexts/AddHabitContext";
 import isUserLoggedContext from "../../contexts/isUserLoggedContext";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Habit from "./Habit";
+import AddHabit from "./AddHabit";
 
 export default function Habits(){
+    const [loading,setLoading] = useState(false);
     const {userData} =useContext (UserContext);
     const {setIsUserLogged} = useContext(isUserLoggedContext);
     const navigate = useNavigate();
     const [habits,setHabits] = useState([]);
+    const [isAddHabitClicked,setIsAddHabitClicked] = useState(false);
+    const [addName,setAddName] = useState ('');
+    const [addDays,setAddDays] = useState([]);
 
     const config ={
         headers: {
@@ -84,19 +90,64 @@ export default function Habits(){
             return(
                 <StyleNoHabits>
                     <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
-                </StyleNoHabits>
-                
+                </StyleNoHabits>  
             );
         }
     }
+
+    function toggleFormAddHabit(isOpen){
+        setIsAddHabitClicked(isOpen);
+    }
+
+    function saveHabit(habitData){
+        setLoading(false);
+        const URL="https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
+        const promise = axios.post(URL,habitData,config);
+
+        promise
+            .then(response=>{
+                const {data} = response;
+                habitData.id=data.id;
+                toggleFormAddHabit(false);
+                setHabits([...habits,habitData]);
+            })
+            .catch(err=>{
+                setLoading(true);
+                alert("Algo inesperado aconteceu, insira os dados novamente!");
+            });
+
+    }
     
+    function openHabitForm(){
+        if (isAddHabitClicked){
+            return (
+                <AddHabitContext.Provider value={{addName, setAddName, addDays, setAddDays}}>
+                    <AddHabit toggleFormAddHabit= {(isOpen)=>toggleFormAddHabit(isOpen)} 
+                        saveHabit={(habitdata)=>{
+                            saveHabit(habitdata);
+                        }}
+                        loading={loading}
+                        setLoading={setLoading}
+                    />
+
+                </AddHabitContext.Provider>
+            );
+        }else{
+            return (
+                <>
+                </>
+            );
+        }
+    }
+
     return (
         <Container>
             <HabitsTitle>
                 <h2>Meus hábitos</h2>
-                <button>+</button>
+                <button onClick={()=>toggleFormAddHabit(true)}>+</button>
             </HabitsTitle>
             <HabitsItems>
+                {openHabitForm()}
                 {HabitsList()}
             </HabitsItems>
             
@@ -105,10 +156,6 @@ export default function Habits(){
 }
 
 const StyleNoHabits = styled.div`
-    // display:flex;
-    // justify-content:flex-start;
-    // align-items:center;
-    // margin: 98px 18px 101px 18px;
     flex-wrap:wrap;
     margin-top:30px;
     margin-bottom: 10px;
@@ -144,11 +191,8 @@ const HabitsTitle = styled.div`
         border:none;
         color:#FFF;
         cursor:pointer;
-        // :hover{
-        //     transform: translate(1px, 1px);
-        //     filter: opacity(0.7);
-        // }
-        
+        font-size: 26.976px;
+        line-height: 34px;
     }
 
 `;
