@@ -11,8 +11,6 @@ import "dayjs/locale/pt-br";
 import { ThemeProvider } from "styled-components";
 import check from "../../assets/img/check.png";
 
-
-
 export default function TodayPage (){
     const {userData} = useContext (UserContext);
     const {percentage, setPercentage} = useContext(PercentageProgressBarContext);
@@ -21,11 +19,9 @@ export default function TodayPage (){
 
     dayjs.locale("pt-br");
     require("dayjs/locale/pt-br");
-    let today = dayjs();
-    let upToday = dayjs(today).locale("pt-br").format("dddd,DD/MM");
+    let today = dayjs(dayjs()).locale("pt-br").format("dddd,DD/MM");
+    let upToday = today[0].toUpperCase()+today.slice(1);
 
-    
-    
     useEffect (()=>{
         const config ={
             headers: {
@@ -56,42 +52,25 @@ export default function TodayPage (){
     }
 
     function statusHabit(id,done){
-        let URL= "";
+        const URL= done ?`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`:`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`;
 
         const config ={
             headers: {
                 Authorization: `Bearer ${userData.token}`
             }
         }
-       
-        
-        if (done){
-            URL=`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`;
-        }
-        else{
-            URL=`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`;
-        }
-        const promise = axios.post(URL,"",config);
+    
+        const promise = axios.post(URL, "",config);
 
         promise
-            .then(response =>{
+            .then(() =>{
                 setReload(!reload);
             })
             .catch((err)=>{
                 alert("Houve um problema!");
             });
-
-        return(
-            <>
-            </>
-        );
     }
        
-
-        
-
-        
-
     function TodayList(){
         return todayHabits.map((habit)=>{
             const {id, name, done, currentSequence, highestSequence} = habit;
@@ -99,8 +78,20 @@ export default function TodayPage (){
                 <div>
                     <h2>{name}</h2>
                     <Sequence>
-                        <p>Sequência atual:</p>
-                        <p>Seu recorde:</p>
+                        <p>
+                            Sequência atual:
+                            <StyleCurrentSequence selected={done}>
+                                {currentSequence}
+                                {currentSequence !== "0" && currentSequence !== "1" ? ' dia' : ' dias'}
+                            </StyleCurrentSequence>
+                        </p>
+                        <p>
+                            Seu recorde:
+                            <StyleHighestSequence currentSeq={currentSequence} highestSeq={highestSequence} >
+                                {highestSequence}
+                                {highestSequence !== "0" && highestSequence !== "1" ? ' dia' : ' dias'}
+                            </StyleHighestSequence>
+                        </p>
                     </Sequence>
                 </div>
                 <ThemeProvider theme={done? clickedTheme : defaultTheme}>
@@ -135,7 +126,24 @@ export default function TodayPage (){
 }
 
 
+function currentDaysColor(props) {
+    const { selected } = props;
+    if (selected) {
+        return "#8FC549";
+    } else {
+        return "#666";
+    }
+}
 
+function highestDayColor(currentSequence, highestSequence){
+    if (highestSequence !== 0) {
+        if (currentSequence === highestSequence) {
+            return "#8FC549";
+        } else {
+            return "#666";
+        }
+    } 
+}
 
 
 const Today = styled.div`
@@ -164,7 +172,7 @@ const Task = styled.div`
     width: calc(100vw - 36px);
     padding:13px 13px 12px 15px;
     height: 94px;
-    background-color: #DBDBDB;
+    background-color: #FFF;
     border-radius: 5px;
     display:flex;
     justify-content:space-between;
@@ -185,7 +193,10 @@ const Task = styled.div`
         line-height: 16px; 
     }
 `;
-const Sequence = styled.div``;
+const Sequence = styled.div`
+    margin-bottom:13px;
+
+`;
 
 const CheckBox = styled.div`
     width:69px;
@@ -217,6 +228,7 @@ const TodayInfo = styled.div`
         font-size: 22.976px;
         line-height: 29px;
         color: #126BA5;
+        padding-bottom:0;
     }
 `;
 const StyleTodayList = styled.div`
@@ -225,6 +237,10 @@ const StyleTodayList = styled.div`
     flex-direction:column;
     justify-content:center;
     align-item:center;
+
+    h2{
+        padding-bottom:7px;
+    }
 
 `;
 
@@ -236,5 +252,12 @@ const clickedTheme = {
     dfColor: '#8FC549'
 };
 
+const StyleHighestSequence = styled.span`
+    color: ${(props) => highestDayColor(props.currentSeq, props.highestSeq)}
+`;
+
+const StyleCurrentSequence = styled.span`
+    color: ${(selected) => currentDaysColor(selected)}
+`;
 
 
