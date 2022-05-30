@@ -19,13 +19,14 @@ export default function Habits(){
     const [addName,setAddName] = useState ('');
     const [addDays,setAddDays] = useState([]);
 
-    const config ={
-        headers: {
-            Authorization: `Bearer ${userData.token}`
-        }
-    }
-    console.log(config);
+    
+
     useEffect (()=>{
+        const config ={
+            headers: {
+                Authorization: `Bearer ${userData.token}`
+            }
+        }
         
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
         const promise= axios.get(URL,config);
@@ -33,7 +34,6 @@ export default function Habits(){
         promise
             .then(response=>{
                 const { data } = response;
-                console.log(data);
                 setHabits(data);
                 setIsUserLogged(true);
             })
@@ -51,6 +51,11 @@ export default function Habits(){
                 <>
                 </>
             );
+        }
+        const config ={
+            headers: {
+                Authorization: `Bearer ${userData.token}`
+            }
         }
         
         const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`;
@@ -100,6 +105,11 @@ export default function Habits(){
     }
 
     function saveHabit(habitData){
+        const config ={
+            headers: {
+                Authorization: `Bearer ${userData.token}`
+            }
+        }
         setLoading(false);
         const URL="https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
         const promise = axios.post(URL,habitData,config);

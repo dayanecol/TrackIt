@@ -6,8 +6,7 @@ import PercentageProgressBarContext from "../contexts/PercentageProgressBarConte
 
 export default function Footer(){
     const { percentage } = useContext (PercentageProgressBarContext);
-    const { setPercentage}= useContext(PercentageProgressBarContext);
-    setPercentage(60);//PORCENTAGEM CHUMBADA
+    
     return (
         <StyleFooter>
             <StyledLink to= "/habitos">
